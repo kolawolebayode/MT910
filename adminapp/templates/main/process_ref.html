@@ -1,0 +1,82 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Transactions</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Transactions</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+{% endblock header %}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+      <!-- SELECT2 EXAMPLE -->
+      <div class="card card-default">
+        <div class="card-header">
+          <h5 class="card-title" style="color: red;"><b>REFERENCE</b>: {{ ref.mt103_related_ref }}</h5><br>
+          <h5 class="card-title" style="color: red;"><b>INFO</b>: {{ ref.sender_receiever_info }}</h5>
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <!-- /.card-header -->
+
+        <form action="" method="post">
+            {% csrf_token %}
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Master Reference</label>
+                <select class="form-control select2" name="master_ref" style="width: 100%;">
+                  <option selected="selected disabled" >Select ....</option>
+                  {% for item in items %}
+                  <option value='{{item}}'>{{item|slice:"0:1"|cut:"('"}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <!-- /.form-group -->
+
+            </div>
+
+          </div>
+          <!-- /.row -->
+
+        </div>
+
+        <div class="modal-footer justify-content-between">
+     
+            <input type="button" class="btn btn-default" value="Back!" onclick="history.back()">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+    </form>
+           
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'js/datatables-buttons/js/buttons.print.min.js' %}"></script>
+{% endblock js  %}

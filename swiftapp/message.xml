@@ -1,0 +1,43 @@
+                    #PREPARE XML HERE
+                    message = (f"""<?xml version="1.0" standalone="yes"?><ServiceRequest xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:m='urn:messages.service.ti.apps.tiplus2.misys.com' xmlns:c='urn:common.service.ti.apps.tiplus2.misys.com' xmlns='urn:control.services.tiplus2.misys.com'>
+<RequestHeader>
+<Service>TI</Service>
+<Operation>TFFSARPY</Operation>
+<Credentials>
+<Name>SUPERVISOR</Name>
+<Password>Password</Password>            
+</Credentials>
+<ReplyFormat>FULL</ReplyFormat>
+<NoRepair>N</NoRepair>
+<NoOverride>N</NoOverride>
+<CorrelationId></CorrelationId>
+<TransactionControl>NONE</TransactionControl>
+</RequestHeader>
+<m:TFFSARPY>
+<m:Context>
+<c:Branch>LOND</c:Branch>            
+<c:Customer>{data.ordering_institution}</c:Customer>
+<c:CustomerSwiftAddress>{(str(data.ordering_institution) + 'XXX')}</c:CustomerSwiftAddress>
+<c:Product>{qs[1]}</c:Product>
+<c:Event>RFS</c:Event>
+<c:OurReference>EXP/20/03376</c:OurReference>
+<c:TheirReference>ILCITF-20-01204</c:TheirReference>
+<c:Team>Hub</c:Team>            
+</m:Context>            
+<m:MasterRef>EXP/20/03376</m:MasterRef>        
+<m:RepaymentAction>O</m:RepaymentAction>
+<m:RepaymentReference>{data.senders_ref}</m:RepaymentReference>   
+<m:ValueDate>{data.value_date}</m:ValueDate>
+<m:PrincipalRepaymentAmount>
+<c:Amount>{data.trans_amount}</c:Amount>
+<c:Currency>{data.currency}</c:Currency>
+</m:PrincipalRepaymentAmount>
+<m:AdditionalData>
+<c:DataItem>
+<c:Name>Extra</c:Name>
+<c:Value>{data.sender_receiever_info}</c:Value>
+</c:DataItem>
+</m:AdditionalData>        
+</m:TFFSARPY>
+</ServiceRequest>
+""") 

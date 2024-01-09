@@ -1,0 +1,160 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Transactions</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Transactions</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+{% endblock header %}
+{% block content %}
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+       
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Unprocessed Transactions</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+   
+            <table id="example1" class="table table-bordered table-striped price">
+              <thead>
+              <tr>
+                <th>s/n</th>
+                <!-- <th>File Name</th> -->
+                <th>Value Date</th>
+                <!-- <th>Amount</th> -->
+                <th>Reference</th>
+                <th>Sender Info</th>
+            
+                <th>Action</th>
+               
+            
+                
+              </tr>
+              </thead>
+              <tbody>
+              {% for transaction in trans_list %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <!-- <td><a href="{% url 'generatemsg' transaction.id %}">{{ transaction.file_name }} </a></td> -->
+                <td>{{ transaction.value_date }}</td>  
+                <!-- <td>{{ transaction.trans_amount}}</td> -->
+                <td>{{ transaction.mt103_related_ref}}</td>
+                <td>{{ transaction.sender_receiever_info}}</td>
+              
+
+                <td><a href="{% url 'processreference' transaction.id %}"><button type="button"  class="btn btn-danger btn-xs">Manual Prodessing</button></a></td>
+              </td>
+                 
+                
+              </tr>
+              {% endfor %}
+              </tbody>
+              {% comment %} <tfoot>
+              <tr>
+                <th>Rendering engine</th>
+                <th>Browser</th>
+                <th>Platform(s)</th>
+                <th>Engine version</th>
+                <th>CSS grade</th>
+              </tr>
+              </tfoot> {% endcomment %}
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+
+</section>
+
+
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog modal-default">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Reference</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post">
+          {% csrf_token %}
+        <div class="card-body">
+              <!-- <div class="form-group">
+                <label for="team">Team </label>
+                <select name='team'  class="form-control" required>
+                  <option>Please select</option>
+                  <option value='Trade Operations'>Trade Ops</option>
+                  <option value='Treasury Operations'>Treasury Operations</option>
+                </select>
+              </div>  -->
+
+              <div class="form-group">
+                <label for="customer_id">Reference</label>
+                <input type="text" class="form-control" id="reference" name='reference' placeholder="Enter Reference" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Risk Rating </label>
+                <input type="text" class="form-control"  id='ref' name="ref" placeholder="Enter Reference">
+              </div> 
+        
+              <h6 id="modal_body"></h6>
+              
+            </div>
+        
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+
+
+   <!-- <script type="text/javascript">
+        $("#submit").click(function () {
+            var ref_id = $("#ref_id").val();
+
+            var str = "You Have Entered " 
+                + "Name: " + ref_id ;
+            $("#modal_body").html(str);
+        });
+    </script> -->
+
+
+{% endblock content %}
+
+
+{% block js %}
+<script src="{% static 'js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'js/datatables-buttons/js/buttons.print.min.js' %}"></script>
+{% endblock js  %}

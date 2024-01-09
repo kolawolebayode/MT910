@@ -1,0 +1,113 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Reference</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Reference</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+{% endblock header %}
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+       
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Reference Search</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <form action="" method="post">
+              {% csrf_token %}
+                 
+            <div class="row">
+              <div class="form-group col-9"> 
+                  <div class="col-12">
+                    <label asp-for="Lead.Name" class="control-label float-left">Name</label>
+                      <input asp-for="Lead.Name" class="form-control " name='reference' placeholder="Enter Reference" />
+                  </div>
+              </div>
+    
+            <div class="form-group col-3"> 
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary btn-sm">Find</button>
+                </div>
+         
+        </div>
+    
+        </div> 
+              
+            </form>
+
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th>s/n</th>
+                <th>File Name</th>
+                <th>Value Date</th>
+                <th>Amount</th>
+                <th>Reference</th>
+                <th>Sender Info</th>
+                <!-- <th>Action</th> -->
+                <!-- <th>Nostro</th>
+                <th>Suspense</th> -->
+                
+              </tr>
+              </thead>
+              <tbody>
+              {% for transaction in trans_list %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td> <a href="{% url 'generatemsg' transaction.id %}">{{ transaction.file_name }}</a>  </td>
+                <td>{{ transaction.value_date }}</td>  
+                <td>{{ transaction.trans_amount}}</td>
+                <td>{{ transaction.mt103_related_ref}}</td>
+                <td>{{ transaction.sender_receiever_info}}</td>
+                <!-- <td>Download MT910</td> -->
+                  <!-- <td>{{ transaction.nostro_account}}</td>
+                <td>{{ transaction.suspense}}</td> -->
+              </tr>
+              {% endfor %}
+              </tbody>
+              {% comment %} <tfoot>
+              <tr>
+                <th>Rendering engine</th>
+                <th>Browser</th>
+                <th>Platform(s)</th>
+                <th>Engine version</th>
+                <th>CSS grade</th>
+              </tr>
+              </tfoot> {% endcomment %}
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+
+
+{% endblock content %}
+
+{% block js %}
+<!-- <script src="{% static 'js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'js/datatables-buttons/js/buttons.print.min.js' %}"></script> -->
+{% endblock js  %}

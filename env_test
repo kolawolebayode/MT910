@@ -1,0 +1,32 @@
+
+SECRET_KEY='django-insecure-q34&g$3yvc-gx6p9=^2cjf&_-kg73ln_60y+h!5as51h^6j0dd'
+DEBUG=1
+
+#DB Connection
+DB_HOST='172.25.1.39'
+DB_NAME='swiftappdb'
+DB_USER='postgres'
+DB_PASS='waterfall'
+
+
+payment_url='http://172.25.1.42:8082/api/transfer/'
+app_url='http://172.25.1.39:8083'
+
+
+#Oracle DB COnnection to TI
+un="TIZONE1_28"
+pw="TIZONE1"
+#cs='uba-v-misys-dev:1522/UBADEV28'
+cs='172.26.100.51:1522/UBADEV28'
+
+#Oracle DB COnnection
+# un="DBREAD"
+# pw="dbread"
+# cs='172.26.100.31:1521/uktstdb'
+
+#QM Configuration
+queue_manager='TIMQMGR'
+channel='SYSTEM.ADMIN.SVRCONN'
+host='172.26.100.51'
+port='1414'
+queue_name='TI.IN'
