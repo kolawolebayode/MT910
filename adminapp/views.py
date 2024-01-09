@@ -2,7 +2,7 @@
 import requests
 import json
 import oracledb
-import logging
+#import logging
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from django.db.models import Count
@@ -24,7 +24,7 @@ tran_date = datetime.now().strftime("%Y-%m-%d")
 payment_url = config('payment_url')
 app_url = config('app_url')
 # Create your views here.
-logger = logging.getLogger('django')
+#logger = logging.getLogger('django')
 
 
 # Create your views here.
@@ -128,11 +128,11 @@ def addreference(request):
         response = requests.request("POST", url, headers=headers, data=payload)
     
         if response.status_code == 200 or response.status_code == 201:
-            logger.info(f"Reference {reference} has been added successfully")
+            #logger.info(f"Reference {reference} has been added successfully")
             messages.success(request, f"Reference {reference} has been added successfully")
             return redirect('addreference')
         else:
-            logger.error(f"Error! {reference} already exists")
+            #logger.error(f"Error! {reference} already exists")
             messages.error(request, f"Error! {reference} already exists")
             return redirect('addreference')
     
