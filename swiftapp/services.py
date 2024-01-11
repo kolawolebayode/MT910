@@ -9,7 +9,7 @@ from .models import Acct, Transactions, Ref, UnMatchedTransaction
 
 from .processfile import fileprocessor
 from decouple import config
-logger = logging.getLogger('django')
+#logger = logging.getLogger('django')
 
 
 #remoteFilePath = config('remoteFilePath')
@@ -26,15 +26,13 @@ def readfile():
         print("Connection successfully established")
         print("Processsing ... ")
     
-
         for obj in os.listdir(remoteFilePath):
             print(obj)
         
             file_name = obj
             remotefile = f"{remoteFilePath}/{obj}"
             if obj.endswith('txt'):
-            
-            
+
                 with open(remotefile, 'r', 32768) as f:
                     output = f.readlines()   
                     sender_info = []
@@ -52,7 +50,15 @@ def readfile():
 
                     #File processor view
                     response = fileprocessor(output, sender_info)
-
+                    trans_amount = response['all_data'].get('trans_amount')
+                    if trans_amount.endswith('.'):
+                        trans_amount.replace(".", "")
+                        print(trans_amount)
+                        trans_amount = trans_amount
+                    # else:
+                    #     trans_amount.replace(',', '.')
+                    #     print(trans_amount)
+                        #trans_amount = int(trans_amount)/100    
                     
                     #### Save all details in mt910 into DB
                     try:
@@ -62,7 +68,7 @@ def readfile():
                                                         value_date_and_tran_amount = response['all_data'].get('value_date_and_tran_amount'),
                                                         value_date = response['all_data'].get('value_date_str'),
                                                         currency = response['all_data'].get('currency'),
-                                                        trans_amount = response['all_data'].get('trans_amount'),
+                                                        trans_amount = trans_amount,
                                                         ordering_institution = response['all_data'].get('ordering_institution'),
                                                         mt103_related_ref = response['mt103_related_ref'],
                                                         account_id = response['all_data'].get('account_id'),
@@ -83,7 +89,7 @@ def readfile():
                                 Transactions.objects.filter(mt103_related_ref= response['mt103_related_ref']).update(team=team )
                     except Exception as e:  
                         print(e)
-                        logger.info(f"{e}")  
+                   # os.rename(remotefile, remotefile+"_processed")   # logger.info(f"{e}")  
     except Exception as e:
         print(e)                 
 

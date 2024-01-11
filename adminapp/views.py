@@ -100,8 +100,10 @@ def logoutPage(request):
 def dashboard(request):
 
     sucessful_posted_trans_count =  Transactions.objects.filter(status='success').count()
-    processed_trans_count =  Transactions.objects.filter(status='success', qm_processed='complete').count()
-    unprocessed_trans_count =  Transactions.objects.filter(status='success', qm_processed='unprocessed').count()
+    #processed_trans_count =  Transactions.objects.filter(status='success', qm_processed='complete').count()
+    processed_trans_count =  Transactions.objects.filter(status='success', qm_processed='pending').count()
+    unprocessed_trans_count =  Transactions.objects.filter(status='pending', team='Trade Operations').count()
+    #unprocessed_trans_count =  Transactions.objects.filter(status='success', qm_processed='unprocessed').count() #look at test this is for stage 2 i changed bcos of the posting issue
     failed_posted_trans_count =  Transactions.objects.filter(status='failed').count()
     context = {"sucessful_posted_trans_count":sucessful_posted_trans_count, "processed_trans_count":processed_trans_count, "failed_posted_trans_count":failed_posted_trans_count, "unprocessed_trans_count":unprocessed_trans_count}
     return render(request, "main/dashboard.html", context)
@@ -116,7 +118,9 @@ def addreference(request):
         team =  request.POST.get('team')
 
         url = f"{app_url}/api/reference"
-  
+        print(url)
+        print(reference)
+        print(team)
         payload = json.dumps({
                             "team": team,
                             "reference": reference
@@ -126,7 +130,7 @@ def addreference(request):
         }
 
         response = requests.request("POST", url, headers=headers, data=payload)
-    
+        #print(response.text)
         if response.status_code == 200 or response.status_code == 201:
             #logger.info(f"Reference {reference} has been added successfully")
             messages.success(request, f"Reference {reference} has been added successfully")
@@ -216,23 +220,25 @@ def balances(request):
 # @login_required(login_url  ='login')
 #Success Posting in Finacle and processing in TI
 def processedtransactions(request): 
-    trans_list =  Transactions.objects.filter(status='success', qm_processed='complete').values('entry_date').annotate(count=Count('id')).order_by('-entry_date').distinct()
+    trans_list =  Transactions.objects.filter(status='success', qm_processed='pending').values('entry_date').annotate(count=Count('id')).order_by('-entry_date').distinct()
     context = {"trans_list":trans_list}
     return render(request, "main/processedtransactioncount.html", context)
 
 def dailyprocessedtransaction(request, pk):
-    trans_list = Transactions.objects.filter(entry_date = pk, status='success', qm_processed='complete').order_by('-id')
+    trans_list = Transactions.objects.filter(entry_date = pk, status='success', qm_processed='pending').order_by('-id')
     context = {"trans_list":trans_list}
     return render(request, "main/dailyprocessedtransactions.html", context)
 
 def unprocessedtransactions(request): 
-    trans_list =  Transactions.objects.filter(status='success', qm_processed='unprocessed').values('entry_date').annotate(count=Count('id')).order_by('-entry_date').distinct()
+    #trans_list =  Transactions.objects.filter(status='pending', qm_processed='pending').values('entry_date').annotate(count=Count('id')).order_by('-entry_date').distinct()
+    trans_list =  Transactions.objects.filter(status='pending', team='Trade Operations').values('entry_date').annotate(count=Count('id')).order_by('-entry_date').distinct()
+
     context = {"trans_list":trans_list}
     return render(request, "main/unprocessedtransactioncount.html", context)
 
 def dailyunprocessedtransaction(request, pk):
-    trans_list = Transactions.objects.filter(entry_date = pk, status='success', qm_processed='unprocessed').order_by('-id')
-
+    #trans_list = Transactions.objects.filter(entry_date = pk, status='pending', qm_processed='pending').order_by('-id')
+    trans_list = Transactions.objects.filter(entry_date = pk, status='pending', team='Trade Operations').order_by('-id')
     context = {"trans_list":trans_list}
     return render(request, "main/dailyunprocessedtransactions.html", context)
 

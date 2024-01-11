@@ -14,7 +14,7 @@ def gen_token():
 
     
     #url = "{payment_url}:8082/api/auth_token/"
-    url = "http://172.19.60.30:8060/api/auth_token"
+    url = "http://172.19.60.30:8081/api/auth_token"
 
 
     payload = json.dumps(
@@ -37,7 +37,7 @@ def gen_token():
 def Payment():
     accounts = Acct.objects.all()
     response_token = gen_token()
-
+    
     
     headers = {
     'Content-Type': 'application/json',
@@ -46,18 +46,18 @@ def Payment():
 
 
     try:
-        url = f"http://172.19.60.30:8060/api/transfer"
+        url = f"http://172.19.60.30:8081/api/transfer"
     except Exception as e:
         print(e)
         return JsonResponse({"error": e})
     
     get_entries = Transactions.objects.filter(status='pending').exclude(team='unsorted')
-    #get_entries = Transactions.objects.filter(id='323')
+   # get_entries = Transactions.objects.filter(id='96')
     if not get_entries:
         return HttpResponse("No transactions")
 
     for entry in get_entries:
-
+ 
         for acct in accounts:
             if entry.currency == acct.currency: # Use here to differentiate wether trade ops or treasury ops to filter when needed
                 nostro_acct = acct.account_num
@@ -75,10 +75,11 @@ def Payment():
                 resp = requests.request("POST", url, headers=headers, json=payload)
            
                 response = resp.json()
+
                 #if response['detail']:
-         
+                print(response)
                 refs = Ref.objects.all()
-                
+             
                 if response['status_code'] == '00':
                     finacle_ref = response['tran_id']
 

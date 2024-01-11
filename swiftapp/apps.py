@@ -8,7 +8,8 @@ class SwiftappConfig(AppConfig):
 
     #Apscheduler this runs the task
     def ready(self):
-        from task import updater
+        pass
+        #from task import updater
         #updater.start()
  
 

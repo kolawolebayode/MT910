@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/ubauk-admin/Application/MT910-1/mtvenv"
+set -gx VIRTUAL_ENV "/home/ubauk-admin/Application/mt910/mtvenv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

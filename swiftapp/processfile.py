@@ -33,7 +33,7 @@ def fileprocessor(output, sender_info):
             if ":32A:" in item:
                 value_date_and_tran_amount = item.replace(":32A:", "")
                 if "," in value_date_and_tran_amount:
-                    value_date_and_tran_amount = value_date_and_tran_amount.replace(",","")
+                    value_date_and_tran_amount = value_date_and_tran_amount.replace(",",".")
                 value_date = value_date_and_tran_amount[:6]
                 value_date_str = datetime.strptime(value_date, '%y%m%d').strftime('%Y-%m-%d')
                 currency = value_date_and_tran_amount[6:9]

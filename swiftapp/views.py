@@ -15,7 +15,7 @@ import paramiko
 
 # Create your views here.
 def fileprocess(requests):
-    response  = readfile()
+    response = readfile()
     #read_folder()
     print(response)
     return HttpResponse(response)
@@ -39,6 +39,7 @@ def queuemanager(requests):
 
 #Use for processing and payment
 def Processing(requests):
+    #return
     readfile()
     return Payment()
     

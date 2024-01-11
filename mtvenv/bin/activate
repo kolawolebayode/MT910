@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/ubauk-admin/Application/MT910-1/mtvenv"
+VIRTUAL_ENV="/home/ubauk-admin/Application/mt910/mtvenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
